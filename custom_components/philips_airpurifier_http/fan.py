@@ -21,7 +21,6 @@ from homeassistant.components.fan import (
 from homeassistant.const import (
     CONF_HOST,
     CONF_NAME,
-    CONF_UNIQUE_ID,
 )
 
 from .const import *
@@ -124,8 +123,6 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     wifi = await hass.async_add_executor_job(client.get_wifi)
     if PHILIPS_MAC_ADDRESS in wifi:
         unique_id = wifi[PHILIPS_MAC_ADDRESS]
-    else:
-        unique_id = config[CONF_UNIQUE_ID]
 
     device = PhilipsAirPurifierFan(hass, client, name, unique_id)
 
