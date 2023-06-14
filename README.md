@@ -111,21 +111,9 @@ Sets the device used index(IAI or PM2.5)
 | entity_id  | `"fan.living_room"` | _Required_ | Name(s) of the entities to set display light |
 | used_index | `"IAI"`             | _Required_ | One of "IAI" or "PM2.5".                     |
 
-## Meta
-
-**Georgi Gardev**
-
-- [gar.dev](https://gar.dev)
-- [![GitHub][github-icon]][github-link] [GeorgeSG][github-link]
-- [![Twitter][twitter-icon]][twitter-link] [@georgesg92][twitter-link]
-
 [hacs-shield]: https://img.shields.io/badge/HACS-Custom-orange.svg
 [hacs-link]: https://github.com/hacs/integration
-[releases-shield]: https://img.shields.io/github/release/GeorgeSG/ha-philips-airpurifier.svg
-[releases-link]: https://github.com/GeorgeSG/ha-philips-airpurifier/releases
+[releases-shield]: https://img.shields.io/github/release/CumpsD/philips_air_purifier.svg
+[releases-link]: https://github.com/CumpsD/philips_air_purifier/releases
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg
-[maintenance-link]: https://github.com/GeorgeSG/ha-philips-airpurifier
-[github-icon]: http://i.imgur.com/9I6NRUm.png
-[github-link]: https://github.com/GeorgeSG/
-[twitter-icon]: http://i.imgur.com/wWzX9uB.png
-[twitter-link]: https://twitter.com/georgesg92
+[maintenance-link]: https://github.com/CumpsD/philips_air_purifier
