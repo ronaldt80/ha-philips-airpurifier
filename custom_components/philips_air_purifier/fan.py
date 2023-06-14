@@ -79,7 +79,6 @@ SERVICE_SET_USED_INDEX_SCHEMA = AIRPURIFIER_SERVICE_SCHEMA.extend(
     {vol.Required(SERVICE_ATTR_USED_INDEX): vol.In(USED_INDEX_MAP.values())}
 )
 
-
 SERVICE_TO_METHOD = {
     SERVICE_SET_FUNCTION: {
         "method": "async_set_function",
@@ -113,7 +112,7 @@ SERVICE_TO_METHOD = {
 
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
-    """Set up the philips_airpurifier platform."""
+    """Set up the philips_air_purifier platform."""
 
     name = config[CONF_NAME]
     client = await hass.async_add_executor_job(
@@ -169,7 +168,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
 
 class PhilipsAirPurifierFan(FanEntity):
-    """philips_airpurifier fan entity."""
+    """philips_air_purifier fan entity."""
 
     def __init__(self, hass, client, name):
         self.hass = hass

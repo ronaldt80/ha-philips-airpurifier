@@ -1,11 +1,11 @@
-""" philips_airpurifier_http constants"""
+""" philips_air_purifier constants"""
 
 # Integration setup
-DOMAIN = "philips_airpurifier_http"
-DATA_PHILIPS_FANS = "fan.philips_airpurifier"
+DOMAIN = "philips_air_purifier"
+DATA_PHILIPS_FANS = "fan.philips_air_purifier"
 
 # Integration defaults
-DEFAULT_NAME = "Philips AirPurifier"
+DEFAULT_NAME = "Philips Air Purifier"
 DEFAULT_ICON = "mdi:air-purifier"
 
 # Services
@@ -129,6 +129,17 @@ FUNCTION_MAP = {
     PHILIPS_FUNCTION_PURIFICATION: FUNCTION_PURIFICATION,
     PHILIPS_FUNCTION_BOTH: FUNCTION_BOTH,
 }
+
+# Icon Values
+DATA_EXTRA_MODULE_URL = "frontend_extra_module_url"
+LOADER_URL = f"/{DOMAIN}/main.js"
+LOADER_PATH = f"custom_components/{DOMAIN}/main.js"
+ICONS_URL = f"/{DOMAIN}/icons"
+ICONLIST_URL = f"/{DOMAIN}/list"
+ICONS_PATH = f"custom_components/{DOMAIN}/icons"
+
+PAP = "pap"
+ICONS = "icons"
 
 # Misc values
 DISPLAY_LIGHT_MAP = {

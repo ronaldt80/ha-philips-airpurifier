@@ -1,0 +1,9 @@
+{
+  "domain": "philips_air_purifier",
+  "name": "Philips Air Purifier (HTTP)",
+  "documentation": "https://github.com/CumpsD/philips_air_purifier",
+  "issue_tracker": "https://github.com/CumpsD/philips_air_purifier/issues",
+  "codeowners": ["@CumpsD"],
+  "requirements": ["py-air-control==2.3.0"],
+  "version": "1.5.0"
+}
