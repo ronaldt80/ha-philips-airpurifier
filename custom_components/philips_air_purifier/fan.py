@@ -203,7 +203,6 @@ class PhilipsAirPurifierFan(FanEntity):
         self._timer_remaining = None
 
     ### Update Fan attributes ###
-
     async def async_update(self):
         """Fetch state from device."""
         try:
