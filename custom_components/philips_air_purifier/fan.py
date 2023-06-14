@@ -2,10 +2,14 @@
 
 import asyncio
 import logging
+
 from pyairctrl.http_client import HTTPAirClient
+
 from functools import partial
+
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
+
 from homeassistant.util.percentage import (
     ordered_list_item_to_percentage,
     percentage_to_ordered_list_item,
@@ -152,6 +156,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         for device in devices:
             if not hasattr(device, service_method):
                 continue
+
             await getattr(device, service_method)(**params)
             update_tasks.append(device.async_update_ha_state(True))
 
@@ -162,8 +167,12 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         schema = SERVICE_TO_METHOD[air_purifier_service].get(
             "schema", AIRPURIFIER_SERVICE_SCHEMA
         )
+
         hass.services.async_register(
-            DOMAIN, air_purifier_service, async_service_handler, schema=schema
+            DOMAIN,
+            air_purifier_service,
+            async_service_handler,
+            schema=schema
         )
 
 
@@ -223,46 +232,63 @@ class PhilipsAirPurifierFan(FanEntity):
 
     async def _update_model(self):
         firmware = await self.hass.async_add_executor_job(self._client.get_firmware)
+
         if PHILIPS_MODEL_NAME in firmware:
             self._model = firmware[PHILIPS_MODEL_NAME]
 
     async def _update_state(self):
         status = await self.hass.async_add_executor_job(self._client.get_status)
+
         if PHILIPS_POWER in status:
             self._state = "on" if status[PHILIPS_POWER] == "1" else "off"
+
         if PHILIPS_PM25 in status:
             self._pm25 = status[PHILIPS_PM25]
+
         if PHILIPS_HUMIDITY in status:
             self._humidity = status[PHILIPS_HUMIDITY]
+
         if PHILIPS_TARGET_HUMIDITY in status:
             self._target_humidity = status[PHILIPS_TARGET_HUMIDITY]
+
         if PHILIPS_ALLERGEN_INDEX in status:
             self._allergen_index = status[PHILIPS_ALLERGEN_INDEX]
+
         if PHILIPS_TEMPERATURE in status:
             self._temperature = status[PHILIPS_TEMPERATURE]
+
         if PHILIPS_FUNCTION in status:
             func = status[PHILIPS_FUNCTION]
             self._function = FUNCTION_MAP.get(func, func)
+
         if PHILIPS_MODE in status:
             mode = status[PHILIPS_MODE]
             self._preset_mode = MODE_MAP.get(mode, mode)
+
         if PHILIPS_SPEED in status:
             speed = status[PHILIPS_SPEED]
             self._fan_speed = SPEED_MAP.get(speed, speed)
+
         if PHILIPS_LIGHT_BRIGHTNESS in status:
             self._light_brightness = status[PHILIPS_LIGHT_BRIGHTNESS]
+
         if PHILIPS_DISPLAY_LIGHT in status:
             display_light = status[PHILIPS_DISPLAY_LIGHT]
             self._display_light = DISPLAY_LIGHT_MAP.get(display_light, display_light)
+
         if PHILIPS_USED_INDEX in status:
             ddp = status[PHILIPS_USED_INDEX]
             self._used_index = USED_INDEX_MAP.get(ddp, ddp)
+
         if PHILIPS_WATER_LEVEL in status:
             self._water_level = status[PHILIPS_WATER_LEVEL]
+
         if PHILIPS_CHILD_LOCK in status:
             self._child_lock = status[PHILIPS_CHILD_LOCK]
+
         if PHILIPS_TIMER in status:
             self._timer = status[PHILIPS_TIMER]
+
         if PHILIPS_TIMER_REMAINING in status:
             self._timer_remaining = status[PHILIPS_TIMER_REMAINING]
 
@@ -271,21 +297,25 @@ class PhilipsAirPurifierFan(FanEntity):
     @property
     def state(self):
         """Return device state."""
+
         return self._state
 
     @property
     def available(self):
         """Return True when state is known."""
+
         return self._available
 
     @property
     def name(self):
         """Return the name of the device if any."""
+
         return self._name
 
     @property
     def icon(self):
         """Return the default icon for the device."""
+
         return DEFAULT_ICON
 
     @property
@@ -301,16 +331,19 @@ class PhilipsAirPurifierFan(FanEntity):
     @property
     def preset_modes(self) -> [str]:
         """Return all available preset modes."""
+
         return self._model_config.get(DEVICE_CONFIG_MODES)
 
     @property
     def preset_mode(self) -> str:
         """Return the current preset mode."""
+
         return self._preset_mode
 
     @property
     def supported_features(self) -> int:
         """Flag supported features."""
+
         return SUPPORT_SET_SPEED | SUPPORT_PRESET_MODE
 
     @property
@@ -330,6 +363,7 @@ class PhilipsAirPurifierFan(FanEntity):
 
     async def async_turn_off(self, **kwargs) -> None:
         """Turn off the fan."""
+
         values = {PHILIPS_POWER: "0"}
         await self._async_set_values(values)
 
@@ -360,20 +394,24 @@ class PhilipsAirPurifierFan(FanEntity):
 
     async def async_set_used_index(self, used_index: str) -> None:
         """Set the used_index of the fan."""
+
         philips_used_index = self._find_key(USED_INDEX_MAP, used_index)
         await self._async_set_values({PHILIPS_USED_INDEX: philips_used_index})
 
     async def async_set_function(self, function: str):
         """Set the function of the fan."""
+
         philips_function = self._find_key(FUNCTION_MAP, function)
         await self._async_set_values({PHILIPS_FUNCTION: philips_function})
 
     async def async_set_target_humidity(self, humidity: int):
         """Set the target humidity of the fan."""
+
         await self._async_set_values({PHILIPS_TARGET_HUMIDITY: humidity})
 
     async def async_set_light_brightness(self, level: int):
         """Set the light brightness of the fan."""
+
         values = {}
         values[PHILIPS_LIGHT_BRIGHTNESS] = level
         values[PHILIPS_DISPLAY_LIGHT] = self._find_key(DISPLAY_LIGHT_MAP, level != 0)
@@ -381,56 +419,77 @@ class PhilipsAirPurifierFan(FanEntity):
 
     async def async_set_child_lock(self, lock: bool):
         """Set the child lock of the fan."""
+
         await self._async_set_values({PHILIPS_CHILD_LOCK: lock})
 
     async def async_set_timer(self, hours: int):
         """Set the off timer of the fan."""
+
         await self._async_set_values({PHILIPS_TIMER: hours})
 
     async def async_set_display_light(self, light: bool):
         """Set the display light of the fan."""
+
         light = self._find_key(DISPLAY_LIGHT_MAP, light)
         await self._async_set_values({PHILIPS_DISPLAY_LIGHT: light})
 
     @property
     def extra_state_attributes(self):
         """Return the state attributes of the device."""
+
         attr = {}
 
         if self._model is not None:
             attr[ATTR_MODEL] = self._model
+
         if self._function is not None:
             attr[ATTR_FUNCTION] = self._function
+
         if self._used_index is not None:
             attr[ATTR_USED_INDEX] = self._used_index
+
         if self._pm25 is not None:
             attr[ATTR_PM25] = self._pm25
+
         if self._allergen_index is not None:
             attr[ATTR_ALLERGEN_INDEX] = self._allergen_index
+
         if self._temperature is not None:
             attr[ATTR_TEMPERATURE] = self._temperature
+
         if self._humidity is not None:
             attr[ATTR_HUMIDITY] = self._humidity
+
         if self._target_humidity is not None:
             attr[ATTR_TARGET_HUMIDITY] = self._target_humidity
+
         if self._water_level is not None:
             attr[ATTR_WATER_LEVEL] = self._water_level
+
         if self._light_brightness is not None:
             attr[ATTR_LIGHT_BRIGHTNESS] = self._light_brightness
+
         if self._display_light is not None:
             attr[ATTR_DISPLAY_LIGHT] = self._display_light
+
         if self._child_lock is not None:
             attr[ATTR_CHILD_LOCK] = self._child_lock
+
         if self._timer is not None:
             attr[ATTR_TIMER] = self._timer
+
         if self._timer_remaining is not None:
             attr[ATTR_TIMER_REMAINGING_MINUTES] = self._timer_remaining
+
         if self._pre_filter is not None:
             attr[ATTR_PRE_FILTER] = self._pre_filter
+
         if self._wick_filter is not None:
             attr[ATTR_WICK_FILTER] = self._wick_filter
+
         if self._carbon_filter is not None:
             attr[ATTR_CARBON_FILTER] = self._carbon_filter
+
         if self._hepa_filter is not None:
             attr[ATTR_HEPA_FILTER] = self._hepa_filter
 
