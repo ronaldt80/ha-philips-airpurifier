@@ -1,5 +1,7 @@
 """ philips_air_purifier platform setup """
 
+import logging
+
 from homeassistant.components.frontend import add_extra_js_url
 from homeassistant.components.http.view import HomeAssistantView
 
@@ -17,10 +19,12 @@ from .const import (
     PAP,
 )
 
+_LOGGER = logging.getLogger(__name__)
+
 # icons code thanks to Thomas Loven:
 # https://github.com/thomasloven/hass-fontawesome/blob/master/custom_components/fontawesome/__init__.py
 class ListingView(HomeAssistantView):
-
+    _LOGGER.debug("ListingView called")
     requires_auth = False
 
     def __init__(self, hass, url):
@@ -34,6 +38,7 @@ class ListingView(HomeAssistantView):
 
 async def async_setup(hass, config) -> bool:
     """Set up the icons for the Philips Air Purifier integration."""
+    _LOGGER.debug("async_setup called")
 
     hass.http.register_static_path(
         LOADER_URL,
