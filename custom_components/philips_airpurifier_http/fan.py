@@ -169,7 +169,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
 
 class PhilipsAirPurifierFan(FanEntity):
-    """philips_aurpurifier fan entity."""
+    """philips_airpurifier fan entity."""
 
     def __init__(self, hass, client, name):
         self.hass = hass

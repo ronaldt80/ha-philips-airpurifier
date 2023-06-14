@@ -130,9 +130,7 @@ FUNCTION_MAP = {
     PHILIPS_FUNCTION_BOTH: FUNCTION_BOTH,
 }
 
-
 # Misc values
-
 DISPLAY_LIGHT_MAP = {
     "0": False,
     "1": True,
