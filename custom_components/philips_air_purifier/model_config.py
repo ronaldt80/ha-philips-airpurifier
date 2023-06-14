@@ -4,6 +4,7 @@ from .const import *
 DEVICE_MODEL_AC2729_10 = "AC2729_10"
 DEVICE_MODEL_AC2889_10 = "AC2889_10"
 DEVICE_MODEL_AC3259_10 = "AC3259_10"
+DEVICE_MODEL_AC5659_10 = "AC5659_10"
 DEFAULT_MODEL = "DEFAULT"
 
 DEVICE_CONFIG_MODES = "device_modes"
@@ -37,6 +38,16 @@ MODELS = {
             MODE_AUTO,
             MODE_MANUAL,
             MODE_SLEEP,
+            MODE_BACTERIA,
+        ],
+        DEVICE_CONFIG_SPEEDS: ALL_SPEEDS,
+        DEVICE_CONFIG_CHANGE_TO_MANUAL: True,
+    },
+    DEVICE_MODEL_AC5659_10: {
+        DEVICE_CONFIG_MODES: [
+            MODE_ALLERGEN,
+            MODE_AUTO,
+            MODE_MANUAL,
             MODE_BACTERIA,
         ],
         DEVICE_CONFIG_SPEEDS: ALL_SPEEDS,
