@@ -1,4 +1,4 @@
 homeassistant
 voluptuous
-py-air-control==2.2.0
+py-air-control==2.3.0
 black
