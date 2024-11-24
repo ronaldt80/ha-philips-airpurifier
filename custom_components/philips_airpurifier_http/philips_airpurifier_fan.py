@@ -51,6 +51,7 @@ from .const import (
     PHILIPS_TIMER,
     PHILIPS_USED_INDEX,
     PHILIPS_WATER_LEVEL,
+    PHILIPS_MACADDRESS,
     SPEED_MAP,
     USED_INDEX_MAP,
 )
@@ -69,10 +70,11 @@ _LOGGER = logging.getLogger(__name__)
 class PhilipsAirPurifierFan(FanEntity):
     """philips_aurpurifier fan entity."""
 
-    def __init__(self, hass, client, name):
+    def __init__(self, hass, client, name, unique_id):
         self.hass = hass
         self._client = client
         self._name = name
+        self._unique_id = None
 
         self._available = False
         self._state = None
