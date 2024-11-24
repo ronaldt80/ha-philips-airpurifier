@@ -14,7 +14,7 @@ from homeassistant.const import (
     CONF_NAME,
 )
 from .philips_airpurifier_fan import PhilipsAirPurifierFan
-from .const import DOMAIN, DEFAULT_NAME, SERVICE_ATTR_ENTITY_ID, DATA_PHILIPS_FANS, PHILIPS_MAC_ADDRESS
+from .const import DOMAIN, DEFAULT_NAME, SERVICE_ATTR_ENTITY_ID, DATA_PHILIPS_FANS
 from .services import SERVICE_TO_METHOD, AIRPURIFIER_SERVICE_SCHEMA
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
