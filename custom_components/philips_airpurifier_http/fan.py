@@ -1,44 +1,26 @@
-"""Support for Phillips Air Purifiers and Humidifiers."""
-
+from homeassistant.components.fan import FanEntity
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.typing import HomeAssistantType
+from .philips_airpurifier_fan import PhilipsAirPurifierFan
+from .const import DOMAIN, DATA_PHILIPS_FANS, PHILIPS_MAC_ADDRESS, SERVICE_ATTR_ENTITY_ID, SERVICE_TO_METHOD, AIRPURIFIER_SERVICE_SCHEMA
 import asyncio
 import logging
 from pyairctrl.http_client import HTTPAirClient
-import voluptuous as vol
-import homeassistant.helpers.config_validation as cv
-
-from homeassistant.components.fan import (
-    PLATFORM_SCHEMA,
-)
-from homeassistant.const import (
-    CONF_HOST,
-    CONF_NAME,
-)
-from .philips_airpurifier_fan import PhilipsAirPurifierFan
-from .const import DOMAIN, DEFAULT_NAME, SERVICE_ATTR_ENTITY_ID, DATA_PHILIPS_FANS, PHILIPS_MAC_ADDRESS
-from .services import SERVICE_TO_METHOD, AIRPURIFIER_SERVICE_SCHEMA
-
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {
-        vol.Required(CONF_HOST): cv.string,
-        vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-    }
-)
 
 _LOGGER = logging.getLogger(__name__)
 
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities):
+    """Set up Philips AirPurifier fan based on a config entry."""
+    host = entry.data["host"]
+    name = entry.data.get("name", "Philips AirPurifier")
 
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
-    """Set up the philips_airpurifier platform."""
-
-    name = config[CONF_NAME]
     client = await hass.async_add_executor_job(
-        lambda: HTTPAirClient(config[CONF_HOST], False)
+        lambda: HTTPAirClient(host, False)
     )
-    mac_address = None
 
     wifi = await hass.async_add_executor_job(client.get_wifi)
-    if PHILIPS_MAC_ADDRESS in wifi:
-        mac_address = wifi[PHILIPS_MAC_ADDRESS]
+    mac_address = wifi.get(PHILIPS_MAC_ADDRESS)
 
     device = PhilipsAirPurifierFan(hass, client, name, mac_address)
     
