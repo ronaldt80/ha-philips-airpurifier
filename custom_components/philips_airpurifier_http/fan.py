@@ -34,13 +34,13 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     client = await hass.async_add_executor_job(
         lambda: HTTPAirClient(config[CONF_HOST], False)
     )
-    unique_id = None
+    mac_address = None
 
     wifi = await hass.async_add_executor_job(client.get_wifi)
     if PHILIPS_MAC_ADDRESS in wifi:
-        unique_id = wifi[PHILIPS_MAC_ADDRESS]
+        mac_address = wifi[PHILIPS_MAC_ADDRESS]
 
-    device = PhilipsAirPurifierFan(hass, client, name, unique_id)
+    device = PhilipsAirPurifierFan(hass, client, name, mac_address)
     
     if DATA_PHILIPS_FANS not in hass.data:
         hass.data[DATA_PHILIPS_FANS] = []
