@@ -70,11 +70,11 @@ _LOGGER = logging.getLogger(__name__)
 class PhilipsAirPurifierFan(FanEntity):
     """philips_aurpurifier fan entity."""
 
-    def __init__(self, hass, client, name, unique_id):
+    def __init__(self, hass, client, name, mac_address):
         self.hass = hass
         self._client = client
         self._name = name
-        self._unique_id = None
+        self._mac_address = macaddress
 
         self._available = False
         self._state = None
@@ -175,6 +175,11 @@ class PhilipsAirPurifierFan(FanEntity):
     def state(self):
         """Return device state."""
         return self._state
+
+    @property
+    def unique_id(self):
+        """Return the unique ID for this fan."""
+        return self._mac_address
 
     @property
     def available(self):
