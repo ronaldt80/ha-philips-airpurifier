@@ -5,6 +5,6 @@
   "issue_tracker": "https://github.com/GeorgeSG/philips-airpurifier/issues",
   "codeowners": ["@GeorgeSG"],
   "requirements": ["py-air-control==2.3.0"],
-  "version": "1.4.2"
+  "version": "1.4.2",
   "config_flow": true
 }
