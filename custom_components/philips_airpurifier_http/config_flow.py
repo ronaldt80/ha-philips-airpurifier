@@ -9,7 +9,9 @@ class PhilipsAirPurifierConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             host = user_input["host"]
             client = await self.hass.async_add_executor_job(lambda: HTTPAirClient(host, False))
-            mac_address = client.get_mac_address()  # Method to retrieve MAC address
+            wifi = client.get_wifi  # Method to retrieve MAC address
+            if PHILIPS_MAC_ADDRESS in wifi:
+                mac_address = wifi[PHILIPS_MAC_ADDRESS]
             await self.async_set_unique_id(mac_address)
             self._abort_if_unique_id_configured()
             return self.async_create_entry(title="Philips AirPurifier", data=user_input)
@@ -18,6 +20,5 @@ class PhilipsAirPurifierConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema({
                 vol.Required("host"): str,
-                vol.Required("api_key"): str,
             })
         )
