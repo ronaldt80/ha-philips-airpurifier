@@ -74,7 +74,7 @@ class PhilipsAirPurifierFan(FanEntity):
         self.hass = hass
         self._client = client
         self._name = name
-        self._mac_address = macaddress
+        self._unique_id = macaddress
 
         self._available = False
         self._state = None
@@ -179,7 +179,7 @@ class PhilipsAirPurifierFan(FanEntity):
     @property
     def unique_id(self):
         """Return the unique ID for this fan."""
-        return self._mac_address
+        return self._unique_id
 
     @property
     def available(self):
