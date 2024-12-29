@@ -1,4 +1,14 @@
-from .const import *
+"""Constants for the Philips AirPurifier component."""
+
+from .const import (
+    MODE_ALLERGEN,
+    MODE_AUTO,
+    MODE_MANUAL,
+    MODE_SLEEP,
+    MODE_BACTERIA,
+    ALL_SPEEDS,
+    ALL_MODES,
+)
 
 # Device models
 DEVICE_MODEL_AC2729_10 = "AC2729_10"

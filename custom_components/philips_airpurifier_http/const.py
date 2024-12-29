@@ -1,4 +1,4 @@
-""" philips_airpurifier_http constants"""
+"""philips_airpurifier_http constants."""
 
 # Integration setup
 DOMAIN = "philips_airpurifier_http"

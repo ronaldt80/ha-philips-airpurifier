@@ -1,10 +1,9 @@
-import logging
-from functools import partial
+"""Support for Philips AirPurifier fans."""
 
-from homeassistant.components.fan import (
-    FanEntity,
-    FanEntityFeature,
-)
+from functools import partial
+import logging
+
+from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.util.percentage import (
     ordered_list_item_to_percentage,
     percentage_to_ordered_list_item,
@@ -24,8 +23,8 @@ from .const import (
     ATTR_PRE_FILTER,
     ATTR_TARGET_HUMIDITY,
     ATTR_TEMPERATURE,
-    ATTR_TIMER_REMAINGING_MINUTES,
     ATTR_TIMER,
+    ATTR_TIMER_REMAINGING_MINUTES,
     ATTR_USED_INDEX,
     ATTR_WATER_LEVEL,
     ATTR_WICK_FILTER,
@@ -40,6 +39,7 @@ from .const import (
     PHILIPS_FUNCTION,
     PHILIPS_HUMIDITY,
     PHILIPS_LIGHT_BRIGHTNESS,
+    PHILIPS_MAC_ADDRESS,
     PHILIPS_MODE,
     PHILIPS_MODEL_NAME,
     PHILIPS_PM25,
@@ -47,21 +47,19 @@ from .const import (
     PHILIPS_SPEED,
     PHILIPS_TARGET_HUMIDITY,
     PHILIPS_TEMPERATURE,
-    PHILIPS_TIMER_REMAINING,
     PHILIPS_TIMER,
+    PHILIPS_TIMER_REMAINING,
     PHILIPS_USED_INDEX,
     PHILIPS_WATER_LEVEL,
-    PHILIPS_MAC_ADDRESS,
     SPEED_MAP,
     USED_INDEX_MAP,
 )
-
 from .model_config import (
     DEFAULT_MODEL,
+    DEVICE_CONFIG_CHANGE_TO_MANUAL,
     DEVICE_CONFIG_MODES,
     DEVICE_CONFIG_SPEEDS,
     MODELS,
-    DEVICE_CONFIG_CHANGE_TO_MANUAL,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -74,7 +72,7 @@ class PhilipsAirPurifierFan(FanEntity):
         self.hass = hass
         self._client = client
         self._name = name
-        self._unique_id = macaddress
+        self._unique_id = mac_address
 
         self._available = False
         self._state = None
