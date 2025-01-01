@@ -70,11 +70,11 @@ _LOGGER = logging.getLogger(__name__)
 class PhilipsAirPurifierFan(FanEntity):
     """philips_aurpurifier fan entity."""
 
-    def __init__(self, hass, client, name, mac_address):
+    def __init__(self, hass, client, name, unique_id):
         self.hass = hass
         self._client = client
         self._name = name
-        self._unique_id = macaddress
+        self._unique_id = unique_id
 
         self._available = False
         self._state = None
@@ -177,14 +177,14 @@ class PhilipsAirPurifierFan(FanEntity):
         return self._state
 
     @property
-    def unique_id(self):
-        """Return the unique ID for this fan."""
-        return self._unique_id
-
-    @property
     def available(self):
         """Return True when state is known."""
         return self._available
+
+    @property
+    def unique_id(self):
+        """Return an unique ID."""
+        return self._unique_id
 
     @property
     def name(self):
@@ -267,7 +267,10 @@ class PhilipsAirPurifierFan(FanEntity):
 
         if preset_mode in MODE_MAP.values():
             philips_mode = self._find_key(MODE_MAP, preset_mode)
-            await self._async_set_values({PHILIPS_MODE: philips_mode})
+            if philips_mode == "S":
+                await self._async_set_values({PHILIPS_MODE: "M", PHILIPS_SPEED: "s"})
+            else:
+                await self._async_set_values({PHILIPS_MODE: philips_mode})
         else:
             _LOGGER.warning('Unsupported preset mode "%s"', preset_mode)
 
